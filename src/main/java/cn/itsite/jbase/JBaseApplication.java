@@ -1,0 +1,12 @@
+package cn.itsite.jbase;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class JBaseApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(JBaseApplication.class, args);
+	}
+}
