@@ -1,6 +1,8 @@
 package cn.itsite.jbase.common.base;
 
 import cn.itsite.jbase.common.JsonHelper;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,24 +17,31 @@ import java.util.Objects;
  * @time: 2018/11/25 0025 17:31
  * @description:
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseResponse<T> implements Serializable {
     public static final Integer SUCCESS = 200;//成功
     public static final Integer LOGOUT = -456;//登出、注销、账户在其他地方登录
-    public static final Integer MISSING_PARAMS = -501;//参数缺失：具体看message提示
-    public static final Integer ERROR_PARAMS = -402;//非法参数：可能是格式不对，可能是类型不对，具体看message提示
-    public static final Integer ERROR_REPEAT = -409;//重复请求，如：验证码[10]分钟内有效
+    public static final Integer MISSING_PARAMS = -401;//参数缺失：具体看message提示
+    public static final Integer PARAMS_ERROR = -402;//非法参数：可能是格式不对，可能是类型不对，具体看message提示
+    public static final Integer REPEAT_ERROR = -409;//重复请求，如：验证码[10]分钟内有效
+    public static final Integer UNKNOW_ERROR = -1;//未知错误
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BaseResponse.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseResponse.class);
 
     public Integer code;
+    public String message;
     public Integer page;
     public Integer pageSize;
     public String first;
     public String next;
     public String previous;
     public String last;
-    public String message;
     public T data;
+
+    public BaseResponse(Response response) {
+        this.code = response.getCode();
+        this.message = response.getMessage();
+    }
 
     public BaseResponse(Integer code, String message) {
         this.code = code;
@@ -51,37 +60,39 @@ public class BaseResponse<T> implements Serializable {
         this.data = response.data;
     }
 
-    public boolean isSuccessful() {
+    @JsonIgnore
+    public Boolean isSuccessful() {
         return Objects.equals(code, SUCCESS);
     }
 
-    public boolean isLogout() {
+    @JsonIgnore
+    public Boolean isLogout() {
         return Objects.equals(code, LOGOUT);
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public BaseResponse<T> setCode(int code) {
+    public BaseResponse<T> setCode(Integer code) {
         this.code = code;
         return this;
     }
 
-    public int getPage() {
+    public Integer getPage() {
         return page;
     }
 
-    public BaseResponse<T> setPage(int page) {
+    public BaseResponse<T> setPage(Integer page) {
         this.page = page;
         return this;
     }
 
-    public int getPageSize() {
+    public Integer getPageSize() {
         return pageSize;
     }
 
-    public BaseResponse<T> setPageSize(int pageSize) {
+    public BaseResponse<T> setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
         return this;
     }
@@ -143,7 +154,7 @@ public class BaseResponse<T> implements Serializable {
     @Override
     public String toString() {
         String json = JsonHelper.objectToJson(this);
-        LOGGER.debug("json-->" + json);
+        logger.debug("json-->" + json);
         return json;
     }
 
@@ -165,7 +176,36 @@ public class BaseResponse<T> implements Serializable {
         return new BaseResponse(code, message);
     }
 
+    public static BaseResponse error(Response response) {
+        return new BaseResponse(response);
+    }
+
     public static BaseResponse errorLogout() {
         return new BaseResponse(LOGOUT, "恭喜你退出登录了");
+    }
+
+    public enum Response {
+        SUCCESS(200, "成功"),
+        LOGOUT(-456, "登出、注销、账户在其他地方登录"),
+        MISSING_PARAMS(-401, "参数缺失：具体看message提示"),
+        PARAMS_ERROR(-402, "非法参数"),
+        REPEAT_ERROR(-409, "重复请求"),
+        UNKNOW_ERROR(-1, "未知错误");
+
+        private Integer code;
+        private String message;
+
+        Response(Integer code, String message) {
+            this.code = code;
+            this.message = message;
+        }
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 }

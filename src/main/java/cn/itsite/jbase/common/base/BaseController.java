@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class BaseController {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(BaseController.class);
+    private final static Logger logger = LoggerFactory.getLogger(BaseController.class);
 
 //	/**
 //	 * 统一异常处理
@@ -21,7 +21,7 @@ public abstract class BaseController {
 //	 * @param response
 //	 * @param exception
 //	 */
-//	@ExceptionHandler
+//	@ExceptionHelper
 //	public String exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception exception) {
 //		LOGGER.error("统一异常处理：", exception);
 //		request.setAttribute("ex", exception);
