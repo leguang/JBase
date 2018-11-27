@@ -1,4 +1,4 @@
-//package cn.itsite.jbase.common.base;
+package cn.itsite.jbase.common.base;//package cn.itsite.jbase.common.base;
 //
 //import com.github.pagehelper.PageHelper;
 //import com.zheng.common.db.DataSourceEnum;

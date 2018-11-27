@@ -1,4 +1,4 @@
-//package cn.itsite.jbase.common.base;
+package cn.itsite.jbase.common.base;//package cn.itsite.jbase.common.base;
 //
 //
 //import java.util.List;

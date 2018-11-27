@@ -6,7 +6,12 @@
     <groupId>cn.itsite</groupId>
     <artifactId>jbase</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <modules>
+        <module>web</module>
+        <module>service</module>
+        <module>model</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <name>JBase</name>
     <description>Rapid development framework for Spring Boot</description>
@@ -53,18 +58,5 @@
             <artifactId>druid</artifactId>
             <version>1.1.0</version>
         </dependency>
-
-
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
-
 </project>

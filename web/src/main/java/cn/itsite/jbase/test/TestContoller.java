@@ -11,10 +11,10 @@ public class TestContoller {
     public String getUser() throws MyException {
 //        int i = 1 / 0;
 
-        throw new MyException();
+//        throw new MyException();
 
-//        return "{\n" +
-//                "    \"test\": \"test\"\n" +
-//                "}";
+        return "{\n" +
+                "    \"test\": \"test\"\n" +
+                "}";
     }
 }
