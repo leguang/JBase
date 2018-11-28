@@ -17,7 +17,7 @@ public class ExceptionHelper {
     public static void handle(Throwable t) {
         if (t != null) {
             t.printStackTrace();
-            logger.debug("ExceptionHelper-->" + t.toString());
+            logger.debug("ExceptionHelper-->" + t.getMessage(), t);
         }
     }
 }

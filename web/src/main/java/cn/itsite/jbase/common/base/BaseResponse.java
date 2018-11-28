@@ -159,16 +159,16 @@ public class BaseResponse<T> implements Serializable {
     }
 
     public BaseResponse<T> newBuilder() {
-        return new BaseResponse(this);
+        return new BaseResponse<T>(this);
     }
 
     public static BaseResponse success() {
         return success(null);
     }
 
-    public static BaseResponse success(Object object) {
-        BaseResponse response = new BaseResponse(SUCCESS, "success");
-        response.setData(object);
+    public static <T> BaseResponse<T> success(T data) {
+        BaseResponse<T> response = new BaseResponse<>(SUCCESS, "success");
+        response.setData(data);
         return response;
     }
 
