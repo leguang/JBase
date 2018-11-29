@@ -20,7 +20,7 @@ public class BaseExceptionHandler {
         if (e instanceof MyException) {
             baseResponse = BaseResponse.error(BaseResponse.Response.PARAMS_ERROR);
         } else {
-            baseResponse = BaseResponse.error(BaseResponse.Response.UNKNOW_ERROR);
+            baseResponse = BaseResponse.error(-1, e.getMessage(), e);
         }
         return baseResponse;
     }

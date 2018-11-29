@@ -51,13 +51,19 @@ public class BaseResponse<T> implements Serializable {
     public BaseResponse(BaseResponse<T> response) {
         this.code = response.code;
         this.message = response.message;
+        this.data = response.data;
         this.page = response.page;
         this.pageSize = response.pageSize;
         this.first = response.first;
         this.next = response.next;
         this.previous = response.previous;
         this.last = response.last;
-        this.data = response.data;
+    }
+
+    public BaseResponse(Integer code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
     }
 
     @JsonIgnore
@@ -174,6 +180,10 @@ public class BaseResponse<T> implements Serializable {
 
     public static BaseResponse error(Integer code, String message) {
         return new BaseResponse(code, message);
+    }
+
+    public static <T> BaseResponse<T> error(Integer code, String message, T data) {
+        return new BaseResponse<T>(code, message, data);
     }
 
     public static BaseResponse error(Response response) {
