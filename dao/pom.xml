@@ -9,16 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service</artifactId>
+    <artifactId>dao</artifactId>
     <version>${project.parent.version}</version>
 
-    <dependencies>
-        <!-- 增加 dao 依赖 -->
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>dao</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
 
-    </dependencies>
 </project>

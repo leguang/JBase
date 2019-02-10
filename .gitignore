@@ -23,6 +23,7 @@
 /dist/
 /nbdist/
 /.nb-gradle/
-/model/target
 /service/target
-/web/target
+/api/target
+/dao/target
+/generator/src

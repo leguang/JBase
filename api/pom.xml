@@ -9,16 +9,27 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service</artifactId>
+    <artifactId>api</artifactId>
     <version>${project.parent.version}</version>
+    <packaging>jar</packaging>
 
     <dependencies>
         <!-- 增加 dao 依赖 -->
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>dao</artifactId>
+            <artifactId>service</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
