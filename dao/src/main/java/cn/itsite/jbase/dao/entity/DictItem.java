@@ -1,4 +1,4 @@
-package cn.itsite.jbase.dao.pojo;
+package cn.itsite.jbase.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

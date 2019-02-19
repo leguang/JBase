@@ -1,6 +1,6 @@
 package cn.itsite.jbase.common.base;
 
-import cn.itsite.jbase.common.utils.JsonHelper;
+import cn.itsite.jbase.common.helper.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.slf4j.Logger;

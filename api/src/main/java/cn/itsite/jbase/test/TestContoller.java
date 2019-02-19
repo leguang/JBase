@@ -1,5 +1,6 @@
 package cn.itsite.jbase.test;
 
+import cn.itsite.jbase.common.helper.ValidatorHelper;
 import cn.itsite.jbase.exception.MyException;
 import cn.itsite.jbase.pojo.Resource;
 import org.slf4j.Logger;
@@ -12,22 +13,30 @@ public class TestContoller {
     private static final Logger logger = LoggerFactory.getLogger(TestContoller.class);
 
 
+//    @RequestMapping("/test")
+//    public Resource getUser(@Valid Resource , BindingResult bindingResult ) throws MyException {
+////        bindingResult.hasErrors()
+////        Resource resource = new Resource();
+//////        resource.setTest("11111111");
+////        //1. 这几行都是校验的模板代码
+////        //2. 调用server
+////        //3. 返回的时候拼装新dto对象，
+////        return resource;
+////        return new ResponseEntity("11", HttpStatus.CREATED);
+//    }
+
+
     @RequestMapping("/test")
     public Resource getUser() throws MyException {
-////        int i = 1 / 0;
-//
-////        throw new MyException();
-//        List<DictItem> dictItems = dictItemMapper.selectAll();
-//         for (DictItem dictItem : dictItems) {
-//            logger.debug(dictItem.toString());
-//            System.out.println(dictItem.toString());
-//        }
-        Resource resource = new Resource();
-        resource.setTest("11111111");
-        return resource;
-//        return new ResponseEntity("11", HttpStatus.CREATED);
-    }
+//        ValidatorHelper.validateObject()
 
+
+        Resource resource = new Resource();
+        String s = null;
+        s.split("1");
+        return resource;
+
+    }
 
     public static void main(String[] args) {
         byte value = -1;

@@ -19,11 +19,4 @@ import org.springframework.context.annotation.PropertySource;
 public class Resource {
     private String test;
 
-    public String getTest() {
-        return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
-    }
 }

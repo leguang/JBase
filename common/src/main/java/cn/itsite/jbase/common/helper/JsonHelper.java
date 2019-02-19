@@ -1,4 +1,4 @@
-package cn.itsite.jbase.common.utils;
+package cn.itsite.jbase.common.helper;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;

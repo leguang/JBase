@@ -1,8 +1,7 @@
 package cn.itsite.jbase.dao.mapper;
 
 
-import cn.itsite.jbase.dao.pojo.DictItem;
-import org.apache.ibatis.annotations.Mapper;
+import cn.itsite.jbase.dao.entity.DictItem;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package cn.itsite.jbase.common;
 
-import cn.itsite.jbase.common.utils.JsonHelper;
+import cn.itsite.jbase.common.helper.JsonHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
