@@ -1,7 +1,7 @@
-package cn.itsite.jbase.dao.mapper;
+package cn.itsite.jbase.mapper;
 
 
-import cn.itsite.jbase.dao.entity.DictItem;
+import cn.itsite.jbase.entity.DictItem;
 
 import java.util.List;
 

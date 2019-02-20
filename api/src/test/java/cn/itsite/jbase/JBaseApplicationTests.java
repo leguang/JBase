@@ -1,6 +1,6 @@
 package cn.itsite.jbase;
 
-import cn.itsite.jbase.dao.mapper.DictItemMapper;
+import cn.itsite.jbase.mapper.DictItemMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
