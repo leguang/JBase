@@ -3,8 +3,8 @@ package cn.itsite.jbase.common.base;
 import cn.itsite.jbase.common.helper.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,6 +17,8 @@ import java.util.Objects;
  * @time: 2018/11/25 0025 17:31
  * @description:
  */
+@Slf4j
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseResponse<T> implements Serializable {
     public static final Integer SUCCESS = 200;//成功
@@ -25,9 +27,6 @@ public class BaseResponse<T> implements Serializable {
     public static final Integer PARAMS_ERROR = -402;//非法参数：可能是格式不对，可能是类型不对，具体看message提示
     public static final Integer REPEAT_ERROR = -409;//重复请求，如：验证码[10]分钟内有效
     public static final Integer UNKNOW_ERROR = -1;//未知错误
-
-    private static final Logger logger = LoggerFactory.getLogger(BaseResponse.class);
-
     public Integer code;
     public String message;
     public Integer page;
@@ -37,6 +36,9 @@ public class BaseResponse<T> implements Serializable {
     public String previous;
     public String last;
     public T data;
+
+    public BaseResponse() {
+    }
 
     public BaseResponse(Response response) {
         this.code = response.getCode();
@@ -160,7 +162,7 @@ public class BaseResponse<T> implements Serializable {
     @Override
     public String toString() {
         String json = JsonHelper.object2String(this);
-        logger.debug("json-->" + json);
+        log.debug("json-->" + json);
         return json;
     }
 
@@ -190,20 +192,25 @@ public class BaseResponse<T> implements Serializable {
         return new BaseResponse(response);
     }
 
+    public static BaseResponse errorParams(Object error) {
+        return error(Response.PARAMS_ERROR.getCode(), Response.PARAMS_ERROR.getMessage(), error);
+    }
+
     public static BaseResponse errorLogout() {
         return new BaseResponse(LOGOUT, "恭喜你退出登录了");
     }
 
-    /**
-     * 这里要想办法考虑国际化的问题，还是得弄到配置里去
-     */
+
+    // TODO: 2019/2/20 0020  这里要想办法考虑国际化的问题，还是得弄到配置里去
+
     public enum Response {
-        SUCCESS(200, "成功"),
-        LOGOUT(-456, "登出、注销、账户在其他地方登录"),
-        MISSING_PARAMS(-401, "参数缺失：具体看message提示"),
-        PARAMS_ERROR(-402, "非法参数"),
-        REPEAT_ERROR(-409, "重复请求"),
-        UNKNOW_ERROR(-1, "未知错误");
+        // TODO: 2019/2/20 0020 数字要与上面的常量对应
+        SUCCESS(BaseResponse.SUCCESS, "成功"),
+        LOGOUT(BaseResponse.LOGOUT, "登出、注销、账户在其他地方登录"),
+        MISSING_PARAMS(BaseResponse.MISSING_PARAMS, "参数缺失：具体看message提示"),
+        PARAMS_ERROR(BaseResponse.PARAMS_ERROR, "非法参数"),
+        REPEAT_ERROR(BaseResponse.REPEAT_ERROR, "重复请求"),
+        UNKNOW_ERROR(BaseResponse.UNKNOW_ERROR, "未知错误");
 
         private Integer code;
         private String message;

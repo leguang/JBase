@@ -1,4 +1,4 @@
-package cn.itsite.jbase.pojo;
+package cn.itsite.jbase.common.test;
 
 import lombok.Data;
 

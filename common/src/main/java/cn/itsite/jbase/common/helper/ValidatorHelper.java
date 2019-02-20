@@ -1,8 +1,13 @@
 package cn.itsite.jbase.common.helper;
 
+import cn.itsite.jbase.common.base.BaseResponse;
+import cn.itsite.jbase.common.exception.ParamsException;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.MapUtils;
+import org.springframework.validation.BindingResult;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -10,6 +15,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.*;
 
+@Slf4j
 public class ValidatorHelper {
 
     private static ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -54,10 +60,16 @@ public class ValidatorHelper {
         }
     }
 
-//    public static void check(Object param) throws ParamException {
-//        Map<String, String> map = validateObject(param);
-//        if (MapUtils.isNotEmpty(map)) {
-//            throw new ParamException(map.toString());
-//        }
-//    }
+    public static void validate(Object param) throws ParamsException {
+        Map<String, String> map = validateObject(param);
+        if (MapUtils.isNotEmpty(map)) {
+            throw new ParamsException(BaseResponse.Response.PARAMS_ERROR.getCode(), map.toString());
+        }
+    }
+
+    public static void validate(BindingResult result) throws ParamsException {
+        if (result.hasErrors()) {
+            throw ParamsException.paramsError(result.getFieldErrors());
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package cn.itsite.jbase.exception;
+package cn.itsite.jbase.common.exception;
 
 import cn.itsite.jbase.common.base.BaseResponse;
 

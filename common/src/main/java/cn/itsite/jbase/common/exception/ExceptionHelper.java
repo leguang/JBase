@@ -1,7 +1,6 @@
-package cn.itsite.jbase.exception;
+package cn.itsite.jbase.common.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author: leguang
@@ -11,13 +10,13 @@ import org.slf4j.LoggerFactory;
  * @time: 2018/11/25 0025 20:03
  * @description:
  */
+@Slf4j
 public class ExceptionHelper {
-    private static final Logger logger = LoggerFactory.getLogger(ExceptionHelper.class);
 
     public static void handle(Throwable t) {
         if (t != null) {
             t.printStackTrace();
-            logger.debug("ExceptionHelper-->" + t.getMessage(), t);
+            log.info("ExceptionHelper-->" + t.getMessage(), t);
         }
     }
 }

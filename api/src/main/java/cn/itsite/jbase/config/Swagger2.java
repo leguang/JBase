@@ -38,7 +38,7 @@ public class Swagger2 {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.apiInfo(apiInfo())
 				.select()
-//				.apis(RequestHandlerSelectors.basePackage("cn.itsite.jbase.test"))
+//				.apis(RequestHandlerSelectors.basePackage("cn.itsite.jbase.testService"))
 				.paths(PathSelectors.any())
 				.build();
 //				.globalOperationParameters(pars);
