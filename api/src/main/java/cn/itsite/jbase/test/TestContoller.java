@@ -5,17 +5,23 @@ import cn.itsite.jbase.common.helper.ValidatorHelper;
 import cn.itsite.jbase.common.test.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Locale;
 
 @RestController
 @Slf4j
 public class TestContoller {
     @Autowired
     public TestService testService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @GetMapping("/test")
     public BaseResponse getUser(@Valid User user, BindingResult result) {
@@ -32,5 +38,11 @@ public class TestContoller {
          * 2.拼装统一的响应对象
          */
         return BaseResponse.success(user1);
+    }
+
+    @GetMapping("/language")
+    public String language() {
+        String[] param = {"11111111", "222222222222"};
+        return messageSource.getMessage("403", param, LocaleContextHolder.getLocale());
     }
 }

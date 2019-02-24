@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class User {
-    @NotNull(message = "name不能为空")
+    @NotNull(message = "name {NotNull}")
     private String name;
     @Min(value = 0, message = "age不能小于0")
     @Max(value = 100, message = "age不能大于100")
