@@ -5,8 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -22,10 +28,9 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseResponse<T> implements Serializable {
     public static final Integer SUCCESS = 200;//成功
-    public static final Integer LOGOUT = -456;//登出、注销、账户在其他地方登录
-    public static final Integer MISSING_PARAMS = -401;//参数缺失：具体看message提示
-    public static final Integer PARAMS_ERROR = -402;//非法参数：可能是格式不对，可能是类型不对，具体看message提示
-    public static final Integer REPEAT_ERROR = -409;//重复请求，如：验证码[10]分钟内有效
+    public static final Integer LOGOUT = 678;//登出、注销、账户在其他地方登录
+    public static final Integer PARAMS_ERROR = 601;//非法参数：可能是格式不对，可能是类型不对，具体看message提示
+    public static final Integer REPEAT_ERROR = 609;//重复请求，如：验证码[10]分钟内有效
     public static final Integer UNKNOW_ERROR = -1;//未知错误
     public Integer code;
     public String message;
@@ -37,17 +42,40 @@ public class BaseResponse<T> implements Serializable {
     public String last;
     public T data;
 
+    @Autowired
+    private MessageSource messageSource;
+
     public BaseResponse() {
     }
 
     public BaseResponse(Response response) {
         this.code = response.getCode();
-        this.message = response.getMessage();
+//        this.message = messageSource.getMessage(code + "", null, LocaleContextHolder.getLocale());
+        this.message = getMessage(code + "", null);
     }
+
+    public BaseResponse(Integer code) {
+        this.code = code;
+        this.message = getMessage(code + "", null);
+    }
+
 
     public BaseResponse(Integer code, String message) {
         this.code = code;
         this.message = message;
+    }
+
+    public BaseResponse(Integer code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
+
+    public BaseResponse(Integer code, T data) {
+        this.code = code;
+//        this.message = messageSource.getMessage(code + "", null, LocaleContextHolder.getLocale());
+        this.message = getMessage(code + "", null);
+        this.data = data;
     }
 
     public BaseResponse(BaseResponse<T> response) {
@@ -60,12 +88,6 @@ public class BaseResponse<T> implements Serializable {
         this.next = response.next;
         this.previous = response.previous;
         this.last = response.last;
-    }
-
-    public BaseResponse(Integer code, String message, T data) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
     }
 
     @JsonIgnore
@@ -180,12 +202,20 @@ public class BaseResponse<T> implements Serializable {
         return response;
     }
 
-    public static BaseResponse error(Integer code, String message) {
-        return new BaseResponse(code, message);
+    public static <T> BaseResponse<T> error(Integer code, String message) {
+        return new BaseResponse<T>(code, message);
     }
 
     public static <T> BaseResponse<T> error(Integer code, String message, T data) {
         return new BaseResponse<T>(code, message, data);
+    }
+
+    public static <T> BaseResponse<T> error(Integer code, T data) {
+        return new BaseResponse<T>(code, data);
+    }
+
+    public static <T> BaseResponse<T> error(Integer code) {
+        return new BaseResponse<T>(code);
     }
 
     public static BaseResponse error(Response response) {
@@ -193,11 +223,11 @@ public class BaseResponse<T> implements Serializable {
     }
 
     public static BaseResponse errorParams(Object error) {
-        return error(Response.PARAMS_ERROR.getCode(), Response.PARAMS_ERROR.getMessage(), error);
+        return error(Response.PARAMS_ERROR.getCode(), error);
     }
 
     public static BaseResponse errorLogout() {
-        return new BaseResponse(LOGOUT, "恭喜你退出登录了");
+        return error(LOGOUT);
     }
 
 
@@ -205,27 +235,43 @@ public class BaseResponse<T> implements Serializable {
 
     public enum Response {
         // TODO: 2019/2/20 0020 数字要与上面的常量对应
-        SUCCESS(BaseResponse.SUCCESS, "成功"),
-        LOGOUT(BaseResponse.LOGOUT, "登出、注销、账户在其他地方登录"),
-        MISSING_PARAMS(BaseResponse.MISSING_PARAMS, "参数缺失：具体看message提示"),
-        PARAMS_ERROR(BaseResponse.PARAMS_ERROR, "非法参数"),
-        REPEAT_ERROR(BaseResponse.REPEAT_ERROR, "重复请求"),
-        UNKNOW_ERROR(BaseResponse.UNKNOW_ERROR, "未知错误");
+        SUCCESS(BaseResponse.SUCCESS),
+        LOGOUT(BaseResponse.LOGOUT),
+        PARAMS_ERROR(BaseResponse.PARAMS_ERROR),
+        REPEAT_ERROR(BaseResponse.REPEAT_ERROR),
+        UNKNOW_ERROR(BaseResponse.UNKNOW_ERROR);
 
         private Integer code;
-        private String message;
 
-        Response(Integer code, String message) {
+        Response(Integer code) {
             this.code = code;
-            this.message = message;
         }
 
         public Integer getCode() {
             return code;
         }
+    }
 
-        public String getMessage() {
-            return message;
+    /**
+     * 国际化
+     * 注：通过@Autowired private MessageSource messageSource无法获取
+     *
+     * @param result
+     * @return
+     */
+    public String getMessage(String result, Object[] params) {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setCacheSeconds(-1);
+        messageSource.setDefaultEncoding(StandardCharsets.UTF_8.name());
+        messageSource.setBasenames("/i18n/message");
+
+        String message = "";
+        try {
+            Locale locale = LocaleContextHolder.getLocale();
+            message = messageSource.getMessage(result, params, locale);
+        } catch (Exception e) {
+            log.error("parse message error! ", e);
         }
+        return message;
     }
 }

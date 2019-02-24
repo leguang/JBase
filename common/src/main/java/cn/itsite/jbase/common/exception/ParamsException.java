@@ -17,9 +17,10 @@ public class ParamsException extends RuntimeException {
     private Integer code = BaseResponse.PARAMS_ERROR;
     private Object data;
 
-    public ParamsException(Integer code, String message) {
-        super(message);
+    public ParamsException(Integer code, Object data) {
+        super();
         this.code = code;
+        this.data = data;
     }
 
     public ParamsException(Integer code, String message, Object data) {
@@ -29,12 +30,6 @@ public class ParamsException extends RuntimeException {
     }
 
     public static ParamsException paramsError(Object data) {
-        return new ParamsException(BaseResponse.Response.PARAMS_ERROR.getCode(),
-                BaseResponse.Response.PARAMS_ERROR.getMessage(), data);
-    }
-
-    public static ParamsException missingParams(Object data) {
-        return new ParamsException(BaseResponse.Response.MISSING_PARAMS.getCode(),
-                BaseResponse.Response.MISSING_PARAMS.getMessage(), data);
+        return new ParamsException(BaseResponse.Response.PARAMS_ERROR.getCode(), data);
     }
 }
