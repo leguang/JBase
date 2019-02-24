@@ -28,6 +28,7 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseResponse<T> implements Serializable {
     public static final Integer SUCCESS = 200;//成功
+    public static final Integer REQUEST_METHOD_ERROR = 405;//请求方法错误
     public static final Integer LOGOUT = 678;//登出、注销、账户在其他地方登录
     public static final Integer PARAMS_ERROR = 601;//非法参数：可能是格式不对，可能是类型不对，具体看message提示
     public static final Integer REPEAT_ERROR = 609;//重复请求，如：验证码[10]分钟内有效
@@ -48,33 +49,33 @@ public class BaseResponse<T> implements Serializable {
     public BaseResponse() {
     }
 
-    public BaseResponse(Response response) {
-        this.code = response.getCode();
-//        this.message = messageSource.getMessage(code + "", null, LocaleContextHolder.getLocale());
-        this.message = getMessage(code + "", null);
-    }
-
     public BaseResponse(Integer code) {
         this.code = code;
         this.message = getMessage(code + "", null);
     }
 
-
     public BaseResponse(Integer code, String message) {
-        this.code = code;
+        this(code);
         this.message = message;
     }
 
     public BaseResponse(Integer code, String message, T data) {
-        this.code = code;
-        this.message = message;
+        this(code, message);
         this.data = data;
     }
 
     public BaseResponse(Integer code, T data) {
-        this.code = code;
-//        this.message = messageSource.getMessage(code + "", null, LocaleContextHolder.getLocale());
+        this(code);
+        this.data = data;
+    }
+
+    public BaseResponse(Response response) {
+        this.code = response.getCode();
         this.message = getMessage(code + "", null);
+    }
+
+    public BaseResponse(Response response, T data) {
+        this(response);
         this.data = data;
     }
 
@@ -218,24 +219,29 @@ public class BaseResponse<T> implements Serializable {
         return new BaseResponse<T>(code);
     }
 
-    public static BaseResponse error(Response response) {
-        return new BaseResponse(response);
+    public static <T> BaseResponse<T> error(Response response) {
+        return new BaseResponse<T>(response);
     }
 
-    public static BaseResponse errorParams(Object error) {
-        return error(Response.PARAMS_ERROR.getCode(), error);
+    public static <T> BaseResponse<T> error(Response response, Object data) {
+        return new BaseResponse(response, data);
     }
 
-    public static BaseResponse errorLogout() {
-        return error(LOGOUT);
+    public static <T> BaseResponse<T> errorParams(T data) {
+        return error(Response.PARAMS_ERROR.getCode(), data);
     }
 
+    public static <T> BaseResponse<T> errorLogout() {
+        return error(Response.LOGOUT);
+    }
 
-    // TODO: 2019/2/20 0020  这里要想办法考虑国际化的问题，还是得弄到配置里去
+    public static <T> BaseResponse<T> errorRequestMethod(Exception e) {
+        return error(Response.REQUEST_METHOD_ERROR, e.getMessage());
+    }
 
     public enum Response {
-        // TODO: 2019/2/20 0020 数字要与上面的常量对应
         SUCCESS(BaseResponse.SUCCESS),
+        REQUEST_METHOD_ERROR(BaseResponse.REQUEST_METHOD_ERROR),
         LOGOUT(BaseResponse.LOGOUT),
         PARAMS_ERROR(BaseResponse.PARAMS_ERROR),
         REPEAT_ERROR(BaseResponse.REPEAT_ERROR),

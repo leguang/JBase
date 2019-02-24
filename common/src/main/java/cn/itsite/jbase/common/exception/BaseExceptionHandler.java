@@ -4,9 +4,9 @@ import cn.itsite.jbase.common.base.BaseResponse;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,19 +22,23 @@ import java.util.stream.Collectors;
  * @description:
  */
 
-@ControllerAdvice
+@RestControllerAdvice
 public class BaseExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
-    @ResponseBody
     public Object errorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws Exception {
         ExceptionHelper.handle(e);
         return BaseResponse.error(BaseResponse.Response.UNKNOW_ERROR);
     }
 
+    @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
+    public Object errorHandler(HttpRequestMethodNotSupportedException e) throws Exception {
+        ExceptionHelper.handle(e);
+        return BaseResponse.errorRequestMethod(e);
+    }
+
     @ExceptionHandler(value = ParamsException.class)
-    @ResponseBody
-    public Object paramsExceptionHandler(HttpServletRequest request, HttpServletResponse response, ParamsException e) throws Exception {
+    public Object paramsExceptionHandler(ParamsException e) throws Exception {
         ExceptionHelper.handle(e);
         Object data = e.getData();
         if (e.getData() != null) {
@@ -47,7 +51,6 @@ public class BaseExceptionHandler {
     }
 
     @ExceptionHandler(value = BindException.class)
-    @ResponseBody
     public Object paramsExceptionHandler(BindException e) {
         ExceptionHelper.handle(e);
         List<FieldError> errors = e.getBindingResult().getFieldErrors();
