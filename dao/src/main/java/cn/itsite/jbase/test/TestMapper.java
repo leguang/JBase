@@ -13,7 +13,7 @@ public interface TestMapper {
 
     int insert(DictItem record);
 
-    User selectByPrimaryKey(String uid);
+    DictItem selectByPrimaryKey(String uid);
 
     List<DictItem> selectAll();
 

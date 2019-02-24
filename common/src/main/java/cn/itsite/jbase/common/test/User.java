@@ -1,5 +1,6 @@
 package cn.itsite.jbase.common.test;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.Max;
@@ -14,7 +15,6 @@ import javax.validation.constraints.NotNull;
  * @time: 2018/11/25 0025 20:13
  * @description:
  */
-
 @Data
 public class User {
     @NotNull(message = "name {NotNull}")

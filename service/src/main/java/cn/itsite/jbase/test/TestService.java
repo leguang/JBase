@@ -1,6 +1,8 @@
 package cn.itsite.jbase.test;
 
 import cn.itsite.jbase.common.test.User;
+import cn.itsite.jbase.entity.DictItem;
+import cn.itsite.jbase.entity.SysUser;
 
 /**
  * @author: leguang
@@ -11,5 +13,5 @@ import cn.itsite.jbase.common.test.User;
  * @description:
  */
 public interface TestService {
-    User getUser(User user);
+    SysUser getUser(User user);
 }

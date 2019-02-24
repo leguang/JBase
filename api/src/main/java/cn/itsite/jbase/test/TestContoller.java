@@ -1,17 +1,15 @@
 package cn.itsite.jbase.test;
 
 import cn.itsite.jbase.common.base.BaseResponse;
-import cn.itsite.jbase.common.helper.ValidatorHelper;
 import cn.itsite.jbase.common.test.User;
+import cn.itsite.jbase.entity.DictItem;
+import cn.itsite.jbase.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -25,25 +23,25 @@ public class TestContoller {
     @Autowired
     private MessageSource messageSource;
 
-    //    @GetMapping("/test")
-    public BaseResponse getUser(@Valid User user, BindingResult result) {
+    @GetMapping("/test")
+    public BaseResponse getUser(@Valid User user) {
         /**
          * 0.校验参数，只需要调用下面这一行代码即可，
          * 如果有异常会在全局异常那里捕获到，并作出参数错误的特定响应。
          */
-        ValidatorHelper.validate(result);
+//        ValidatorHelper.validate(result);
         /**
          * 1.调用service层完成业务逻辑
          */
-        User user1 = testService.getUser(user);
+        SysUser user1 = testService.getUser(user);
         /**
          * 2.拼装统一的响应对象
          */
         return BaseResponse.success(user1);
     }
 
-    @PostMapping("/test")
-    public Object test( @Validated User user) {
+    //    @PostMapping("/test")
+    public Object test(@Validated User user) {
         System.out.println("1111111111111111111111111");
         log.info("111111111111111");
         /**

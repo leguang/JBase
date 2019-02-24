@@ -26,13 +26,13 @@ import java.util.stream.Collectors;
 public class BaseExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
-    public Object errorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws Exception {
+    public Object exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws Exception {
         ExceptionHelper.handle(e);
         return BaseResponse.error(BaseResponse.Response.UNKNOW_ERROR);
     }
 
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
-    public Object errorHandler(HttpRequestMethodNotSupportedException e) throws Exception {
+    public Object RequestMethodErrorHandler(HttpRequestMethodNotSupportedException e) throws Exception {
         ExceptionHelper.handle(e);
         return BaseResponse.errorRequestMethod(e);
     }
@@ -51,7 +51,7 @@ public class BaseExceptionHandler {
     }
 
     @ExceptionHandler(value = BindException.class)
-    public Object paramsExceptionHandler(BindException e) {
+    public Object validateExceptionHandler(BindException e) {
         ExceptionHelper.handle(e);
         List<FieldError> errors = e.getBindingResult().getFieldErrors();
         Object data = errors.stream()
