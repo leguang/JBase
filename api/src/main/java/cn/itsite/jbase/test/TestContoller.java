@@ -2,7 +2,6 @@ package cn.itsite.jbase.test;
 
 import cn.itsite.jbase.common.base.BaseResponse;
 import cn.itsite.jbase.common.test.User;
-import cn.itsite.jbase.entity.DictItem;
 import cn.itsite.jbase.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +25,9 @@ public class TestContoller {
     @GetMapping("/test")
     public BaseResponse getUser(@Valid User user) {
         /**
-         * 0.校验参数，只需要调用下面这一行代码即可，
+         * 0.参数、请求方法等校验，只需要运用@Valid/@Validated等注解即可，
          * 如果有异常会在全局异常那里捕获到，并作出参数错误的特定响应。
          */
-//        ValidatorHelper.validate(result);
         /**
          * 1.调用service层完成业务逻辑
          */
