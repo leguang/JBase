@@ -1,6 +1,6 @@
-package cn.itsite.jbase.common;
+package cn.itsite.jbase.common.configuration;
 
-import org.springframework.context.annotation.Configuration;
+import cn.itsite.jbase.common.interceptor.LoggerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 

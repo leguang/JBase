@@ -1,4 +1,4 @@
-package cn.itsite.jbase.common;
+package cn.itsite.jbase.common.interceptor;
 
 import cn.itsite.jbase.common.helper.JsonHelper;
 import lombok.extern.slf4j.Slf4j;
