@@ -1,6 +1,5 @@
 package cn.itsite.jbase.common.test;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.Max;
