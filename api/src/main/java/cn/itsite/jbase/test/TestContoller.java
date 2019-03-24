@@ -5,6 +5,7 @@ import cn.itsite.jbase.common.test.User;
 import cn.itsite.jbase.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.validation.annotation.Validated;
@@ -61,5 +62,13 @@ public class TestContoller {
     public String language() {
         String[] param = {"11111111", "222222222222"};
         return messageSource.getMessage("403", param, LocaleContextHolder.getLocale());
+    }
+
+    @Value("${cn.ev}")
+    public String ev;
+
+    @GetMapping("/ev")
+    public String ev() {
+        return ev;
     }
 }
